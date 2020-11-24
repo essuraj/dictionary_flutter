@@ -209,12 +209,14 @@ class _HomePageState extends State<HomePage> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 32, bottom: 24),
-              child: Text(
-                "Simple Dictionary",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    .copyWith(color: DictionaryTheme.secondaryColor),
+              child: Center(
+                child: Text(
+                  "Simple Dictionary",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5
+                      .copyWith(color: DictionaryTheme.secondaryColor),
+                ),
               ),
             ),
             Padding(
