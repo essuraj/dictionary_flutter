@@ -14,16 +14,23 @@ class EntryCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            entry.lexicalCategory.text,
-            style: textTheme.bodyText1.copyWith(color: Colors.grey),
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0),
+            child: Text(
+              entry.lexicalCategory.text,
+              style: textTheme.bodyText1.copyWith(color: Colors.grey),
+            ),
           ),
           Divider(
             thickness: 1,
           ),
           ...entry.entries.expand((e) => e.senses.map((sense) => SenseCard(
                 sense: sense,
-              )))
+              ))),
+          Divider(
+            thickness: 0,
+            height: 16,
+          ),
         ],
       ),
     );

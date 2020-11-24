@@ -60,9 +60,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-      child: Container(
+    return SafeArea(
+      child: Scaffold(
+          body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
           colors: [DictionaryTheme.primaryColor, Color(0xFFe22d4e)],
@@ -71,6 +71,16 @@ class _HomePageState extends State<HomePage> {
         )),
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 32, bottom: 24),
+              child: Text(
+                "Simple Dictionary",
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    .copyWith(color: DictionaryTheme.secondaryColor),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
@@ -147,7 +157,7 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
-      ),
-    ));
+      )),
+    );
   }
 }
