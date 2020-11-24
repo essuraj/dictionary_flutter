@@ -11,9 +11,9 @@ class SenseCard extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          ...sense.definitions.map((e) => ListTile(
+          ...sense.definitions.map((d) => ListTile(
                 title: Text(
-                  e,
+                  d,
                   style: textTheme.bodyText2,
                 ),
               ))

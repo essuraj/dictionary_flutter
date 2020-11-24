@@ -13,10 +13,7 @@ class DefinitionCard extends StatelessWidget {
       padding: EdgeInsets.all(8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Text(result.language),
-          ...result.lexicalEntries.map((e) => EntryCard(entry: e))
-        ],
+        children: [...result.lexicalEntries.map((e) => EntryCard(entry: e))],
       ),
     );
   }

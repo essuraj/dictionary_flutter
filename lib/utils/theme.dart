@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DictionaryTheme {
   static Color primaryColor = Color(0xFFc71c40);
@@ -20,6 +21,7 @@ class DictionaryTheme {
         splashColor: Colors.green.withOpacity(0.2),
         scaffoldBackgroundColor: Colors.white,
         colorScheme: lightColorScheme,
+        textTheme: GoogleFonts.merriweatherTextTheme(),
         primaryColor: primaryColor,
         toggleableActiveColor: primaryColor,
         accentColor: secondaryColor,

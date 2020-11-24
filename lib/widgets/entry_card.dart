@@ -16,7 +16,10 @@ class EntryCard extends StatelessWidget {
         children: [
           Text(
             entry.lexicalCategory.text,
-            style: textTheme.bodyText1,
+            style: textTheme.bodyText1.copyWith(color: Colors.grey),
+          ),
+          Divider(
+            thickness: 1,
           ),
           ...entry.entries.expand((e) => e.senses.map((sense) => SenseCard(
                 sense: sense,
