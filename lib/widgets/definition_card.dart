@@ -14,7 +14,7 @@ class DefinitionCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(result.language),
+          // Text(result.language),
           ...result.lexicalEntries.map((e) => EntryCard(entry: e))
         ],
       ),

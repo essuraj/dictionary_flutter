@@ -10,12 +10,13 @@ class EntryCard extends StatelessWidget {
     var theme = Theme.of(context);
     var textTheme = theme.textTheme;
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.only(top: 16, bottom: 8),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             entry.lexicalCategory.text,
-            style: textTheme.overline,
+            style: textTheme.bodyText1,
           ),
           ...entry.entries.expand((e) => e.senses.map((sense) => SenseCard(
                 sense: sense,

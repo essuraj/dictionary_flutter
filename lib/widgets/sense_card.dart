@@ -6,11 +6,16 @@ class SenseCard extends StatelessWidget {
   SenseCard({Key key, @required this.sense}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    var textTheme = theme.textTheme;
     return Container(
       child: Column(
         children: [
           ...sense.definitions.map((e) => ListTile(
-                title: Text(e),
+                title: Text(
+                  e,
+                  style: textTheme.bodyText2,
+                ),
               ))
         ],
       ),

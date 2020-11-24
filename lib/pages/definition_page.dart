@@ -43,11 +43,16 @@ class _DefinitionPageState extends State<DefinitionPage> {
             children: [
               Text(
                 word,
-                style: textTheme.headline2,
+                style: textTheme.headline4,
               ),
-              ...definition.results.map((e) => DefinitionCard(
-                    result: e,
-                  ))
+              Expanded(
+                  child: ListView(
+                children: [
+                  ...definition.results.map((e) => DefinitionCard(
+                        result: e,
+                      ))
+                ],
+              ))
             ],
           )),
     );
