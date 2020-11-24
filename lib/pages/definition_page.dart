@@ -26,14 +26,15 @@ class _DefinitionPageState extends State<DefinitionPage> {
         });
         try {
           var res = await getDefinition(wordToSearch);
-          if (res.metadata != null)
+          if (res.metadata != null) {
             setState(() {
               definition = res;
             });
-          else
+          } else {
             setState(() {
               errorMessage = "No matching entry found for the word " + word;
             });
+          }
         } catch (e) {
           setState(() {
             errorMessage = e.toString();
