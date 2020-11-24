@@ -7,11 +7,14 @@ class DefinitionCard extends StatelessWidget {
   DefinitionCard({Key key, @required this.result}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    var textTheme = theme.textTheme;
     return Container(
+      padding: EdgeInsets.all(8),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(result.language),
-          Text(result.type),
           ...result.lexicalEntries.map((e) => EntryCard(entry: e))
         ],
       ),

@@ -39,6 +39,7 @@ class _DefinitionPageState extends State<DefinitionPage> {
       body: Container(
           padding: EdgeInsets.all(8.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 word,
