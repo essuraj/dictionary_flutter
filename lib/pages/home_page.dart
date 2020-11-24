@@ -86,14 +86,17 @@ class _HomePageState extends State<HomePage> {
               child: TextField(
                 controller: _searchQuery,
                 decoration: InputDecoration(
-                    // labelText: "Search for a word",
                     fillColor: Colors.white,
                     hintText: "Search for a word",
-                    labelStyle: TextStyle(color: Colors.white),
                     filled: true,
-                    prefixIcon: Icon(Icons.search),
-                    suffixIcon: Icon(Icons.mic),
-                    // contentPadding: EdgeInsets.all(16),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.grey,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.mic),
+                      onPressed: () {},
+                    ),
                     border: OutlineInputBorder(
                         borderRadius: const BorderRadius.all(
                           Radius.circular(32),
@@ -101,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                         borderSide: BorderSide(color: Colors.white)),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
-                          Radius.circular(32),
+                          Radius.circular(10),
                         ),
                         borderSide:
                             BorderSide(color: DictionaryTheme.secondaryColor)),
@@ -116,7 +119,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Padding(
               padding: const EdgeInsets.all(16),
-              child: suggestions != null && suggestions.length > 0
+              child: suggestions != null && suggestions.isNotEmpty
                   ? Material(
                       elevation: 15,
                       borderRadius: BorderRadius.circular(10),
