@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dictionary/models/definition_response.dart';
 import 'package:dictionary/models/suggestion_response.dart';
-import 'package:dictionary/pages/definition_page.dart';
 import 'package:dictionary/utils/constants.dart';
 import 'package:http/http.dart' as http;
 

@@ -36,17 +36,11 @@ class _DefinitionPageState extends State<DefinitionPage> {
     var theme = Theme.of(context);
     var textTheme = theme.textTheme;
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0,
-      // ),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            // title: Text("SilverAppBar title"),
-            // pinned: true,
             pinned: true,
             expandedHeight: 160.0,
-            // **Is it intended ?** flexibleSpace.title overlaps with tabs title.
             flexibleSpace: FlexibleSpaceBar(
                 title: Text(
               word,
@@ -55,7 +49,6 @@ class _DefinitionPageState extends State<DefinitionPage> {
               ),
             )),
           ),
-          // SliverList(
           SliverFillRemaining(
               fillOverscroll: true,
               child: Column(
@@ -67,37 +60,6 @@ class _DefinitionPageState extends State<DefinitionPage> {
               )),
         ],
       ),
-
-      //  Container(
-      //     child: Column(
-      //   crossAxisAlignment: CrossAxisAlignment.start,
-      //   children: [
-      //     Container(
-      //         height: MediaQuery.of(context).size.height / 5,
-      //         decoration: BoxDecoration(
-      //             gradient: LinearGradient(
-      //           colors: [DictionaryTheme.primaryColor, Color(0xFFe22d4e)],
-      //           begin: Alignment.topCenter,
-      //           end: Alignment.bottomCenter,
-      //         )),
-      //         child: Center(
-      //             child: Text(
-      //           word,
-      //           style: textTheme.headline4.copyWith(
-      //             color: DictionaryTheme.secondaryColor,
-      //           ),
-      //         ))),
-      //     Expanded(
-      //         child: ListView(
-      //       children: [
-      //         ...definition.results.map((e) => DefinitionCard(
-      //               result: e,
-      //             ))
-      //       ],
-      //     ))
-      //   ],
-
-      // )),
     );
   }
 }
