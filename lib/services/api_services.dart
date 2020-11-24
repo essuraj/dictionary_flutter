@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:dictionary/models/definition_response.dart';
 import 'package:dictionary/models/suggestion_response.dart';
+import 'package:dictionary/pages/definition_page.dart';
 import 'package:dictionary/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,14 +29,14 @@ Future<SuggestionResponse> checkSpelling(String text) async {
   return SuggestionResponse.fromJson(res.body);
 }
 
-Future<SuggestionResponse> getDefinition(String text) async {
+Future<DefinitionResponse> getDefinition(String word) async {
   var res = await http.get(
-    'https://od-api.oxforddictionaries.com/api/v2/entries/en-gb/${text}?fields=definitions&strictMatch=false',
+    'https://od-api.oxforddictionaries.com/api/v2/entries/en-gb/${word}?fields=definitions&strictMatch=false',
     headers: {
       "Accept": "application/json",
       "app_id": OXFORD_API_KEY,
       "app_key": "41a7c270cea477074ce6bf18d8cd22a6"
     },
   );
-  return SuggestionResponse.fromJson(res.body);
+  return DefinitionResponse.fromJson(res.body);
 }

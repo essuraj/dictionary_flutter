@@ -1,3 +1,6 @@
+import 'package:dictionary/models/definition_response.dart';
+import 'package:dictionary/services/api_services.dart';
+import 'package:dictionary/widgets/definition_card.dart';
 import 'package:flutter/material.dart';
 
 class DefinitionPage extends StatefulWidget {
@@ -7,15 +10,23 @@ class DefinitionPage extends StatefulWidget {
 
 class _DefinitionPageState extends State<DefinitionPage> {
   String word;
+  DefinitionResponse definition;
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       var args =
           ModalRoute.of(context).settings.arguments as Map<String, String>;
-      setState(() {
-        word = args["word"];
-      });
+      var wordToSearch = args["word"];
+      if (wordToSearch != null) {
+        setState(() {
+          word = wordToSearch;
+        });
+        var res = await getDefinition(wordToSearch);
+        setState(() {
+          definition = res;
+        });
+      }
     });
   }
 
@@ -33,6 +44,9 @@ class _DefinitionPageState extends State<DefinitionPage> {
                 word,
                 style: textTheme.headline2,
               ),
+              ...definition.results.map((e) => DefinitionCard(
+                    result: e,
+                  ))
             ],
           )),
     );
