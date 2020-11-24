@@ -170,7 +170,8 @@ class _HomePageState extends State<HomePage> {
           color: Colors.grey,
         ),
         suffixIcon: IconButton(
-          icon: Icon(speech.isListening ? Icons.mic_outlined : Icons.mic),
+          icon:
+              Icon(speech.isListening ? Icons.mic_rounded : Icons.mic_outlined),
           onPressed: _hasSpeech
               ? !_hasSpeech || speech.isListening
                   ? null
