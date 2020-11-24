@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:dictionary/pages/definition_page.dart';
 import 'package:dictionary/services/api_services.dart';
 import 'package:dictionary/utils/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_recognition_error.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:speech_to_text/speech_to_text.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -28,6 +32,101 @@ class _HomePageState extends State<HomePage> {
     "garb"
   ];
   Timer _debounce;
+  bool _hasSpeech = false;
+  double level = 0.0;
+  double minSoundLevel = 50000;
+  double maxSoundLevel = -50000;
+  String lastWords = "";
+  String lastError = "";
+  String lastStatus = "";
+  String _currentLocaleId = "";
+  List<LocaleName> _localeNames = [];
+  final SpeechToText speech = SpeechToText();
+
+  Future<void> initSpeechState() async {
+    var hasSpeech = await speech.initialize(
+        onError: errorListener, onStatus: statusListener);
+    if (hasSpeech) {
+      _localeNames = await speech.locales();
+
+      var systemLocale = await speech.systemLocale();
+      _currentLocaleId = systemLocale.localeId;
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _hasSpeech = hasSpeech;
+    });
+  }
+
+  void startListening() {
+    lastWords = "";
+    lastError = "";
+    speech.listen(
+        onResult: resultListener,
+        listenFor: Duration(seconds: 10),
+        localeId: _currentLocaleId,
+        // onSoundLevelChange: soundLevelListener,
+        cancelOnError: true,
+        listenMode: ListenMode.confirmation);
+    setState(() {});
+  }
+
+  void stopListening() {
+    speech.stop();
+    setState(() {
+      level = 0.0;
+    });
+  }
+
+  void cancelListening() {
+    speech.cancel();
+    setState(() {
+      level = 0.0;
+    });
+  }
+
+  void resultListener(SpeechRecognitionResult result) {
+    setState(() {
+      lastWords = "${result.recognizedWords} - ${result.finalResult}";
+    });
+    print("${result.recognizedWords} - ${result.finalResult}");
+    if (result.finalResult == true && result.recognizedWords.isNotEmpty) {
+      _searchQuery.text = result.recognizedWords;
+    }
+  }
+
+  // void soundLevelListener(double level) {
+  //   minSoundLevel = min(minSoundLevel, level);
+  //   maxSoundLevel = max(maxSoundLevel, level);
+  //   print("sound level $level: $minSoundLevel - $maxSoundLevel ");
+  //   setState(() {
+  //     this.level = level;
+  //   });
+  // }
+
+  void errorListener(SpeechRecognitionError error) {
+    print("Received error status: $error, listening: ${speech.isListening}");
+    setState(() {
+      lastError = "${error.errorMsg} - ${error.permanent}";
+    });
+  }
+
+  void statusListener(String status) {
+    print(
+        "Received listener status: $status, listening: ${speech.isListening}");
+    setState(() {
+      lastStatus = "$status";
+    });
+  }
+
+  // void _switchLang(selectedVal) {
+  //   setState(() {
+  //     _currentLocaleId = selectedVal;
+  //   });
+  //   print(selectedVal);
+  // }
 
   void _onSearchChanged() {
     if (_debounce?.isActive ?? false) _debounce.cancel();
@@ -62,6 +161,40 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var searchDecoration = InputDecoration(
+        fillColor: Colors.white,
+        hintText: "Search for a word",
+        filled: true,
+        prefixIcon: Icon(
+          Icons.search,
+          color: Colors.grey,
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(speech.isListening ? Icons.mic_outlined : Icons.mic),
+          onPressed: _hasSpeech
+              ? !_hasSpeech || speech.isListening
+                  ? null
+                  : startListening
+              : initSpeechState,
+        ),
+        border: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(32),
+            ),
+            borderSide: BorderSide(color: Colors.white)),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+            borderSide: BorderSide(color: DictionaryTheme.secondaryColor)),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              const Radius.circular(32),
+            ),
+            borderSide: BorderSide(
+              color: Colors.white,
+            )));
+
     return SafeArea(
       child: Scaffold(
           body: Container(
@@ -87,50 +220,18 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(16.0),
               child: TextField(
                 controller: _searchQuery,
-                decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    hintText: "Search for a word",
-                    filled: true,
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Colors.grey,
-                    ),
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.mic),
-                      onPressed: () {},
-                    ),
-                    border: OutlineInputBorder(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(32),
-                        ),
-                        borderSide: BorderSide(color: Colors.white)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                        borderSide:
-                            BorderSide(color: DictionaryTheme.secondaryColor)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          const Radius.circular(32),
-                        ),
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                        ))),
+                decoration: searchDecoration,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(16),
               child: suggestions != null && suggestions.isNotEmpty
                   ? Material(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
                       elevation: 15,
-                      borderRadius: BorderRadius.circular(10),
                       child: Container(
                           height: MediaQuery.of(context).size.height / 1.8,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
-                          ),
                           child: ListView.separated(
                               separatorBuilder: (context, index) => Divider(
                                     color: Colors.grey,
