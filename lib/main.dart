@@ -1,4 +1,5 @@
 import 'package:dictionary/pages/home_page.dart';
+import 'package:dictionary/utils/theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,10 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: DictionaryTheme.lightTheme(context),
       home: HomePage(),
     );
   }
