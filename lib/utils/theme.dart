@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DictionaryTheme {
-  static Color primaryColor = Color(0xFF43A047);
-  static Color secondaryColor = Color(0xFF43A047);
+  static Color primaryColor = Color(0xFFc71c40);
+  static Color secondaryColor = Color(0xFFf8f1e7);
 
   static final ColorScheme lightColorScheme = ColorScheme.light().copyWith(
     primary: primaryColor,
