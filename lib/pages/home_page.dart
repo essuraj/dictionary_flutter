@@ -32,13 +32,15 @@ class _HomePageState extends State<HomePage> {
   void _onSearchChanged() {
     if (_debounce?.isActive ?? false) _debounce.cancel();
     _debounce = Timer(const Duration(milliseconds: 1000), () async {
-      var res = await checkSpelling(_searchQuery.text);
-      print(res.toJson());
-      var tempSuggestions = res.elements?.first?.errors?.first?.suggestions;
-      if (tempSuggestions != null) {
-        setState(() {
-          suggestions = tempSuggestions;
-        });
+      if (_searchQuery.text != null && _searchQuery.text.trim().isNotEmpty) {
+        var res = await checkSpelling(_searchQuery.text);
+        print(res.toJson());
+        var tempSuggestions = res.elements?.first?.errors?.first?.suggestions;
+        if (tempSuggestions != null) {
+          setState(() {
+            suggestions = tempSuggestions;
+          });
+        }
       }
     });
   }
