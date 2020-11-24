@@ -4,6 +4,7 @@ import 'package:dictionary/pages/definition_page.dart';
 import 'package:dictionary/services/api_services.dart';
 import 'package:dictionary/utils/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class HomePage extends StatefulWidget {
   @override
@@ -45,6 +46,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
     _searchQuery.addListener(_onSearchChanged);
   }
 
