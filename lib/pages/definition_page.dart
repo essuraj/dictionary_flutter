@@ -11,6 +11,7 @@ class DefinitionPage extends StatefulWidget {
 
 class _DefinitionPageState extends State<DefinitionPage> {
   String word;
+  String errorMessage;
   DefinitionResponse definition;
   @override
   void initState() {
@@ -23,10 +24,21 @@ class _DefinitionPageState extends State<DefinitionPage> {
         setState(() {
           word = wordToSearch;
         });
-        var res = await getDefinition(wordToSearch);
-        setState(() {
-          definition = res;
-        });
+        try {
+          var res = await getDefinition(wordToSearch);
+          if (res.metadata != null)
+            setState(() {
+              definition = res;
+            });
+          else
+            setState(() {
+              errorMessage = "No matching entry found for the word " + word;
+            });
+        } catch (e) {
+          setState(() {
+            errorMessage = e.toString();
+          });
+        }
       }
     });
   }
@@ -51,13 +63,20 @@ class _DefinitionPageState extends State<DefinitionPage> {
           ),
           SliverFillRemaining(
               fillOverscroll: true,
-              child: Column(
-                children: [
-                  ...definition.results.map((e) => DefinitionCard(
-                        result: e,
-                      ))
-                ],
-              )),
+              child: definition == null
+                  ? errorMessage == null
+                      ? Center(
+                          child: CircularProgressIndicator(
+                          backgroundColor: DictionaryTheme.primaryColor,
+                        ))
+                      : Center(child: Text(errorMessage))
+                  : Column(
+                      children: [
+                        ...definition.results.map((e) => DefinitionCard(
+                              result: e,
+                            ))
+                      ],
+                    )),
         ],
       ),
     );

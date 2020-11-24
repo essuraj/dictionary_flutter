@@ -19,7 +19,6 @@ class MyApp extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: DictionaryTheme.lightTheme(context),
       home: HomePage(),
     );

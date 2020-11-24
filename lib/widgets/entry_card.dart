@@ -27,10 +27,9 @@ class EntryCard extends StatelessWidget {
           ...entry.entries.expand((e) => e.senses.map((sense) => SenseCard(
                 sense: sense,
               ))),
-          Divider(
-            thickness: 0,
+          SizedBox(
             height: 16,
-          ),
+          )
         ],
       ),
     );

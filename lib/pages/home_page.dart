@@ -139,8 +139,6 @@ class _HomePageState extends State<HomePage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => DefinitionPage(),
-                                        // Pass the arguments as part of the RouteSettings. The
-                                        // DetailScreen reads the arguments from these settings.
                                         settings: RouteSettings(
                                           arguments: {
                                             "word": suggestions[index]
