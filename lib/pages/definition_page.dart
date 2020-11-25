@@ -3,6 +3,7 @@ import 'package:dictionary/services/api_services.dart';
 import 'package:dictionary/utils/theme.dart';
 import 'package:dictionary/widgets/definition_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class DefinitionPage extends StatefulWidget {
   @override
@@ -12,10 +13,12 @@ class DefinitionPage extends StatefulWidget {
 class _DefinitionPageState extends State<DefinitionPage> {
   String word;
   String errorMessage;
+  FlutterTts flutterTts;
   DefinitionResponse definition;
   @override
   void initState() {
     super.initState();
+    flutterTts = FlutterTts();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       var args =
           ModalRoute.of(context).settings.arguments as Map<String, String>;
@@ -73,6 +76,17 @@ class _DefinitionPageState extends State<DefinitionPage> {
                       : Center(child: Text(errorMessage))
                   : Column(
                       children: [
+                        ListTile(
+                          trailing: Icon(Icons.volume_up_outlined),
+                          title: Text(
+                            "Pronounciation",
+                            style: textTheme.bodyText1
+                                .copyWith(color: Colors.grey),
+                          ),
+                          onTap: () async {
+                            await flutterTts.speak(word);
+                          },
+                        ),
                         ...definition.results.map((e) => DefinitionCard(
                               result: e,
                             ))
