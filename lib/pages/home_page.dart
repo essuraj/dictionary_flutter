@@ -18,18 +18,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _searchQuery = TextEditingController();
   List<String> suggestions = [
-    "agar",
-    "gar",
-    "Graf",
-    "Agra",
-    "Gary",
-    "gar",
-    "Graf",
-    "gar",
-    "Graf",
-    "gar",
-    "Graf",
-    "garb"
+    // "agar",
+    // "gar",
+    // "Graf",
+    // "Agra",
+    // "Gary",
+    // "gar",
+    // "Graf",
+    // "gar",
+    // "Graf",
+    // "gar",
+    // "Graf",
+    // "garb"
   ];
   Timer _debounce;
   bool _hasSpeech = false;
